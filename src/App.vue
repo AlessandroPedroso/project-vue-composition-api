@@ -1,15 +1,75 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h3>Usando Computed()</h3>
+  {{ fullName }}
+  <br>
+  <h5>Admin Utilizando Função</h5>
+  {{ user.first_name }} - {{ user.last_name }}
+  <br>
+  <button @click="user.first_name = 'Eduardo Pedroso'">Atualizar</button>
+  <br>
+  <br>
+  <br>
+  <AppHook v-if="showAppHook"/>
+  <button @click="showAppHook = !showAppHook">Toggle</button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { computed, ref, watch } from 'vue';
+import AppHook from './components/AppHook.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AppHook
+  },
+
+  setup() {
+
+    //ref utiliza o value para modificar o seu valor na reactividade
+    const user = ref({
+      first_name: 'AdminAlessandro',
+      last_name: 'Pedroso'
+    })
+
+    // recomenda-se utilizar sempre o ref
+    const count = ref(0)
+    const testeString = ref('Alessandro')
+    console.log(testeString)
+    console.log(count)
+    ////////////////
+    const changeName = () => {
+      alert('chegou')
+      //utilizando ref, precisa chamar o '.value'
+      user.value.first_name = 'XXXX'
+    }
+
+    const showAppHook = ref(true)
+
+    //Computed e watch
+    const fullName = computed(() => {
+      return `${user.value.first_name} ${user.value.last_name}`
+    })
+
+    // //quando alterar o objeto usuario ele vai imprimir
+    // watch(user,()=>{
+    //   alert('Watch alterou o objeto')
+    // },{
+    //   deep:true
+    // })
+
+    //quando alterar a propriedade usuario ele vai imprimir
+    watch(()=>user.value.first_name, () => {
+      alert('Watch, alterou o first_name')
+    })
+
+
+    return {
+      changeName,
+      user,
+      fullName,
+      showAppHook
+    }
+
   }
 }
 </script>
