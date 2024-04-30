@@ -11,16 +11,22 @@
   <br>
   <AppHook v-if="showAppHook"/>
   <button @click="showAppHook = !showAppHook">Toggle</button>
+  <br>
+  <br>
+  <br>
+  <AppButton :variant="danger" @update="getUpdate"  data-vue="Alessandro">Save <template #icon>Icon</template></AppButton>
 </template>
 
 <script>
 import { computed, ref, watch } from 'vue';
 import AppHook from './components/AppHook.vue'
+import AppButton from './components/AppButton.vue'
 
 export default {
   name: 'App',
   components: {
-    AppHook
+    AppHook,
+    AppButton
   },
 
   setup() {
@@ -62,12 +68,19 @@ export default {
       alert('Watch, alterou o first_name')
     })
 
+    //pegando o emit do componente filho AppButton
+
+    const getUpdate = (data)=>{
+      console.log('getUpdate:', data)
+    }
+
 
     return {
       changeName,
       user,
       fullName,
-      showAppHook
+      showAppHook,
+      getUpdate
     }
 
   }
